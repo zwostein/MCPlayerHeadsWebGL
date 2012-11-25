@@ -30,7 +30,7 @@ var windowHalfY = window.innerHeight / 2;
 PlayerHead = function( name )
 {
 	THREE.Mesh.call( this );	// inherit from THREE.Mesh
-	this.texture = THREE.ImageUtils.loadTexture( name+'.png' );
+	this.texture = THREE.ImageUtils.loadTexture( 'bild.php?name=' + name );
 	this.texture.magFilter = THREE.NearestFilter;
 	this.material = new THREE.MeshLambertMaterial( { side:THREE.DoubleSide, alphaTest:0.999, map:this.texture } );
 	this.geometry = new THREE.Geometry();
