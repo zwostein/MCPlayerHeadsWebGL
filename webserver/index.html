@@ -97,7 +97,8 @@ function init()
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
 
-	playerHead = new PlayerHead( 'Zw0' );
+	var playername = prompt("Bitte Spielernamen eingeben", "jeb_");
+	playerHead = new PlayerHead( playername );
 	scene.add( playerHead );
 	
 	camera.position.z = 5;
