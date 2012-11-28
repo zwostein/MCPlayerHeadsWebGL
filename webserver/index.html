@@ -47,7 +47,6 @@ function updatePlayerList( playerNames )
 		if( playerNames.indexOf(i) < 0 )
 		{
 			scene.remove( playerHeads[i] );
-			alert( "removed " + i );
 			delete playerHeads[i];
 		}
 	}
@@ -59,13 +58,25 @@ function updatePlayerList( playerNames )
 			playerHeads[playerNames[i]] = new PlayerHead( playerNames[i] );
 			scene.add( playerHeads[playerNames[i]] );
 			playerHeads[playerNames[i]].targetRotation = new THREE.Vector2( 0, 0 );
+			playerHeads[playerNames[i]].lookAt = new THREE.Quaternion();
+			playerHeads[playerNames[i]].randomLookAtOffset = new THREE.Quaternion();
+			playerHeads[playerNames[i]].newRandomLookAtOffset = function()
+			{
+				var random = new THREE.Vector3( -Math.random()*50+25, Math.random()*50-25, -Math.random()*50-80 );
+				var mat = new THREE.Matrix4();
+				mat.lookAt( new THREE.Vector3(0,0,0), random, new THREE.Vector3(0,1,0) );
+				this.randomLookAtOffset.setFromRotationMatrix( mat );
+				var _this = this;
+				this.randomLookAtOffsetTimeout = setTimeout( function(){_this.newRandomLookAtOffset();}, (Math.random()*7000)+1000 );
+			};
+			playerHeads[playerNames[i]].newRandomLookAtOffset();
 		}
 	}
 	var cnt = 1;
 	for( var i in playerHeads )
 	{
 		selectableHeads.push( playerHeads[i] );
-		playerHeads[i].position.x = (20/(playerNames.length+1)) * cnt - 10;
+		playerHeads[i].position.x = (18/(playerNames.length+1)) * cnt - 9;
 		cnt++;
 	}
 }
@@ -76,15 +87,23 @@ var mouse = new THREE.Vector2( 0, 0 );
 var mouseOnMouseDown = new THREE.Vector2( 0, 0 );
 var windowHalf = new THREE.Vector2( window.innerWidth/2, window.innerHeight/2 );
 
+function fovX2fovY( fovX, aspect )
+{
+	fovX = fovX * (Math.PI/180.0);
+	var fovY = 2.0 * Math.atan( Math.tan( fovX * 0.5 ) / aspect );
+	fovY = fovY * (180.0/Math.PI)
+	return fovY;
+}
+
 function init()
 {
 	scene = new THREE.Scene();
-	camera = new THREE.PerspectiveCamera( 45, window.innerWidth/window.innerHeight, 0.1, 1000 );
+	camera = new THREE.PerspectiveCamera( fovX2fovY( 60, window.innerWidth/window.innerHeight ), window.innerWidth/window.innerHeight, 0.1, 100 );
 	renderer = new THREE.WebGLRenderer();
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
 
-	camera.position.z = 10;
+	camera.position.z = 15;
 	
 	var directionalLight = new THREE.DirectionalLight( 0xffffff, 2.0 );
 	directionalLight.position.set( 0, 1, 5 );
@@ -100,6 +119,7 @@ function onWindowResize()
 	windowHalf.x = window.innerWidth/2;
 	windowHalf.y = window.innerHeight/2;
 	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.fov = fovX2fovY( 60, window.innerWidth/window.innerHeight );
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
 }
@@ -164,18 +184,6 @@ function onDocumentMouseOut( event )
 	selectedHead = null;
 }
 
-var lookAt = new THREE.Quaternion();
-var randomLookAtOffset = new THREE.Quaternion();
-function newRandomLookAt()
-{
-	var random = new THREE.Vector3( -Math.random()*50+25, Math.random()*50-25, -Math.random()*50-80 );
-	var mat = new THREE.Matrix4();
-	mat.lookAt( new THREE.Vector3(0,0,0), random, new THREE.Vector3(0,1,0) );
-	randomLookAtOffset.setFromRotationMatrix( mat );
-	randomLookAtTimeout = setTimeout( newRandomLookAt, (Math.random()*7000)+1000 );
-}
-var randomLookAtTimeout = setTimeout( newRandomLookAt, (Math.random()*7000)+1000 );
-newRandomLookAt();
 
 function render()
 {
@@ -187,10 +195,10 @@ function render()
 		var rot = new THREE.Matrix4();
 		rot.rotateY( playerHeads[i].targetRotation.x );
 		rot.rotateX( -playerHeads[i].targetRotation.y );
-		lookAt.setFromRotationMatrix( rot );
-		lookAt.multiplySelf( randomLookAtOffset );
+		playerHeads[i].lookAt.setFromRotationMatrix( rot );
+		playerHeads[i].lookAt.multiplySelf( playerHeads[i].randomLookAtOffset );
 		var newRotation = new THREE.Quaternion();
-		THREE.Quaternion.slerp( playerHeads[i].quaternion, lookAt, newRotation, 0.08 );
+		THREE.Quaternion.slerp( playerHeads[i].quaternion, playerHeads[i].lookAt, newRotation, 0.08 );
 		playerHeads[i].quaternion = newRotation;
 	}
 	renderer.render( scene, camera );

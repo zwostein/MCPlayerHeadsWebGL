@@ -2,6 +2,7 @@
 PlayerHead = function( name )
 {
 	THREE.Mesh.call( this );	// inherit from THREE.Mesh
+
 	this.name = name;
 	this.texture = THREE.ImageUtils.loadTexture( 'getTexture.php?name=' + name );
 	this.texture.magFilter = THREE.NearestFilter;
@@ -56,7 +57,8 @@ PlayerHead = function( name )
 	this.geometry.computeVertexNormals();
 	this.geometry.computeBoundingSphere();
 	this.boundRadius = this.geometry.boundingSphere.radius;
+
 	return this;
 };
+
 PlayerHead.prototype = Object.create( THREE.Mesh.prototype );
-PlayerHead.prototype.constructor = PlayerHead;
