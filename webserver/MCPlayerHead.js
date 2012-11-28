@@ -2,6 +2,7 @@
 PlayerHead = function( name )
 {
 	THREE.Mesh.call( this );	// inherit from THREE.Mesh
+	this.name = name;
 	this.texture = THREE.ImageUtils.loadTexture( 'getTexture.php?name=' + name );
 	this.texture.magFilter = THREE.NearestFilter;
 	this.material = new THREE.MeshLambertMaterial( { side:THREE.DoubleSide, alphaTest:0.999, map:this.texture } );

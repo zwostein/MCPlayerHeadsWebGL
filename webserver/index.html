@@ -11,21 +11,70 @@
 <script src="MCPlayerHead.js"></script>
 
 <script>
+var playerHeads = Array();
+var selectableHeads = [];
+var selectedHead;
 var scene;
 var camera;
 var renderer;
 
-var targetXRotation = 0;
-var targetXRotationOnMouseDown = 0;
-var targetYRotation = 0;
-var targetYRotationOnMouseDown = 0;
-var mouseX = 0;
-var mouseXOnMouseDown = 0;
-var mouseY = 0;
-var mouseYOnMouseDown = 0;
+function initiateUpdatePlayerList()
+{
+	var request = new XMLHttpRequest()
+	request.onreadystatechange = function()
+	{
+		if( request.readyState == 4 )
+		{
+			if( request.status == 200 )
+			{
+				var playerNames = JSON.parse( request.responseText );
+				updatePlayerList( playerNames );
+			}
+		}
+	}
+	request.open( "GET", "getPlayerList.php", true )
+	request.send( null )
+}
+var initiateUpdatePlayerListInterval = setInterval( initiateUpdatePlayerList, 10000 );
+initiateUpdatePlayerList();
 
-var windowHalfX = window.innerWidth / 2;
-var windowHalfY = window.innerHeight / 2;
+function updatePlayerList( playerNames )
+{
+	selectableHeads = new Array();
+	// Players to remove:
+	for( var i in playerHeads )
+	{
+		if( playerNames.indexOf(i) < 0 )
+		{
+			scene.remove( playerHeads[i] );
+			alert( "removed " + i );
+			delete playerHeads[i];
+		}
+	}
+	// Players to add:
+	for( var i in playerNames )
+	{
+		if( !(playerNames[i] in playerHeads) )
+		{
+			playerHeads[playerNames[i]] = new PlayerHead( playerNames[i] );
+			scene.add( playerHeads[playerNames[i]] );
+			playerHeads[playerNames[i]].targetRotation = new THREE.Vector2( 0, 0 );
+		}
+	}
+	var cnt = 1;
+	for( var i in playerHeads )
+	{
+		selectableHeads.push( playerHeads[i] );
+		playerHeads[i].position.x = (20/(playerNames.length+1)) * cnt - 10;
+		cnt++;
+	}
+}
+
+var targetRotation = new THREE.Vector2( 0, 0 );
+var targetRotationOnMouseDown = new THREE.Vector2( 0, 0 );
+var mouse = new THREE.Vector2( 0, 0 );
+var mouseOnMouseDown = new THREE.Vector2( 0, 0 );
+var windowHalf = new THREE.Vector2( window.innerWidth/2, window.innerHeight/2 );
 
 function init()
 {
@@ -35,11 +84,7 @@ function init()
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
 
-	var playername = prompt("Bitte Spielernamen eingeben", "jeb_");
-	playerHead = new PlayerHead( playername );
-	scene.add( playerHead );
-	
-	camera.position.z = 5;
+	camera.position.z = 10;
 	
 	var directionalLight = new THREE.DirectionalLight( 0xffffff, 2.0 );
 	directionalLight.position.set( 0, 1, 5 );
@@ -52,8 +97,8 @@ function init()
 
 function onWindowResize()
 {
-	windowHalfX = window.innerWidth / 2;
-	windowHalfY = window.innerHeight / 2;
+	windowHalf.x = window.innerWidth/2;
+	windowHalf.y = window.innerHeight/2;
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -62,25 +107,45 @@ function onWindowResize()
 function onDocumentMouseDown( event )
 {
 	event.preventDefault();
+
+	mouseOnMouseDown.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouseOnMouseDown.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+
+	var vector = new THREE.Vector3( mouseOnMouseDown.x, mouseOnMouseDown.y, 0.5 );
+	var projector = new THREE.Projector();
+	projector.unprojectVector( vector, camera );
+	var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
+	var intersects = ray.intersectObjects( selectableHeads );
+	if( intersects.length > 0 )
+	{
+		selectedHead = intersects[0].object;
+	}
+
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'mouseup', onDocumentMouseUp, false );
 	document.addEventListener( 'mouseout', onDocumentMouseOut, false );
-	mouseXOnMouseDown = event.clientX - windowHalfX;
-	mouseYOnMouseDown = event.clientY - windowHalfY;
-	targetXRotationOnMouseDown = targetXRotation;
-	targetYRotationOnMouseDown = targetYRotation;
+
+	if( selectedHead )
+	{
+		targetRotationOnMouseDown.x = selectedHead.targetRotation.x;
+		targetRotationOnMouseDown.y = selectedHead.targetRotation.y;
+	}
 }
 
 function onDocumentMouseMove( event )
 {
-	mouseX = event.clientX - windowHalfX;
-	mouseY = event.clientY - windowHalfY;
-	targetXRotation = targetXRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.005;
-	targetYRotation = targetYRotationOnMouseDown + ( mouseY - mouseYOnMouseDown ) * 0.005;
-	if( targetYRotation > Math.PI/4 )
-		targetYRotation = Math.PI/4;
-	if( targetYRotation < -Math.PI/4 )
-		targetYRotation = -Math.PI/4;
+	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+
+	if( selectedHead )
+	{
+		selectedHead.targetRotation.x = targetRotationOnMouseDown.x + ( mouse.x - mouseOnMouseDown.x ) * 5;
+		selectedHead.targetRotation.y = targetRotationOnMouseDown.y + ( mouse.y - mouseOnMouseDown.y ) * 5;
+		if( selectedHead.targetRotation.y > Math.PI/4 )
+			selectedHead.targetRotation.y = Math.PI/4;
+		if( selectedHead.targetRotation.y < -Math.PI/4 )
+			selectedHead.targetRotation.y = -Math.PI/4;
+	}
 }
 
 function onDocumentMouseUp( event )
@@ -88,6 +153,7 @@ function onDocumentMouseUp( event )
 	document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
 	document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
+	selectedHead = null;
 }
 
 function onDocumentMouseOut( event )
@@ -95,6 +161,7 @@ function onDocumentMouseOut( event )
 	document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
 	document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
+	selectedHead = null;
 }
 
 var lookAt = new THREE.Quaternion();
@@ -105,7 +172,7 @@ function newRandomLookAt()
 	var mat = new THREE.Matrix4();
 	mat.lookAt( new THREE.Vector3(0,0,0), random, new THREE.Vector3(0,1,0) );
 	randomLookAtOffset.setFromRotationMatrix( mat );
-	var randomLookAtTimeout = setTimeout( newRandomLookAt, (Math.random()*7000)+1000 );
+	randomLookAtTimeout = setTimeout( newRandomLookAt, (Math.random()*7000)+1000 );
 }
 var randomLookAtTimeout = setTimeout( newRandomLookAt, (Math.random()*7000)+1000 );
 newRandomLookAt();
@@ -114,13 +181,18 @@ function render()
 {
 	requestAnimationFrame( render );
 
-	playerHead.useQuaternion = true;
-	lookAt.setFromEuler( new THREE.Vector3( targetYRotation, targetXRotation, 0 ) );
-	lookAt.multiplySelf( randomLookAtOffset );
-	var newRotation = new THREE.Quaternion();
-	THREE.Quaternion.slerp( playerHead.quaternion, lookAt, newRotation, 0.08 );
-	playerHead.quaternion = newRotation;
-
+	for( var i in playerHeads )
+	{
+		playerHeads[i].useQuaternion = true;
+		var rot = new THREE.Matrix4();
+		rot.rotateY( playerHeads[i].targetRotation.x );
+		rot.rotateX( -playerHeads[i].targetRotation.y );
+		lookAt.setFromRotationMatrix( rot );
+		lookAt.multiplySelf( randomLookAtOffset );
+		var newRotation = new THREE.Quaternion();
+		THREE.Quaternion.slerp( playerHeads[i].quaternion, lookAt, newRotation, 0.08 );
+		playerHeads[i].quaternion = newRotation;
+	}
 	renderer.render( scene, camera );
 }
 
