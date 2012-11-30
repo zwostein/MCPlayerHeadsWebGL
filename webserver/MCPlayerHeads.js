@@ -91,20 +91,19 @@ MCPlayerHeadRow = function( container )
 	this.renderer.setSize( this.container.offsetWidth, this.container.offsetHeight );
 	this.container.appendChild( this.renderer.domElement);
 
-
 	this.directionalLight = new THREE.DirectionalLight( 0xffffff, 2.0 );
 	this.directionalLight.position.set( 0, 1, 5 );
 	this.scene.add( this.directionalLight );
 
 	var _this = this
-
 	this.container.addEventListener( 'mousedown', function(e){_this.onMouseDown(e)}, false );
-	this.container.addEventListener( 'resize', function(e){_this.onResize(e)}, false );
+	window.addEventListener( 'resize', function(e){_this.onResize(e)}, false );
 	this.container.addEventListener( 'mousemove', function(e){_this.onMouseMove(e)}, false );
 	this.container.addEventListener( 'mouseup', function(e){_this.onMouseUp(e)}, false );
 	this.container.addEventListener( 'mouseout', function(e){_this.onMouseOut(e)}, false );
 
 	this.initiateUpdatePlayerListInterval = setInterval( function(){_this.initiateUpdatePlayerList()}, 10000 );
+
 	this.initiateUpdatePlayerList();
 	this.render();
 }
@@ -171,7 +170,6 @@ MCPlayerHeadRow.prototype.updatePlayerList = function( playerNames )
 	}
 }
 
-
 MCPlayerHeadRow.prototype.fovX2fovY = function( fovX, aspect )
 {
 	fovX = fovX * (Math.PI/180.0);
@@ -180,12 +178,12 @@ MCPlayerHeadRow.prototype.fovX2fovY = function( fovX, aspect )
 	return fovY;
 }
 
-MCPlayerHeadRow.onResize = function()
+MCPlayerHeadRow.prototype.onResize = function()
 {
 	this.windowHalf.x = this.container.offsetWidth/2;
-	this.windowHalf.y = this.container.offsetWidth/2;
+	this.windowHalf.y = this.container.offsetHeight/2;
 	this.camera.aspect = this.container.offsetWidth / this.container.offsetHeight;
-	this.camera.fov = fovX2fovY( 60, this.container.offsetWidth/this.container.offsetHeight );
+	this.camera.fov = this.fovX2fovY( 60, this.container.offsetWidth/this.container.offsetHeight );
 	this.camera.updateProjectionMatrix();
 	this.renderer.setSize( this.container.offsetWidth, this.container.offsetHeight );
 }

@@ -1,6 +1,6 @@
 <?php
 
-$mcname = "Zw0 sh4ni";		// Hardcode for testing
+$mcname = "Zw0 sh4ni kaylabs jeb_";		// Hardcode for testing
 $defaultskin = "jeb_";		// Defaultskin if nobody is playing
 
 header('Content-type: text/plain');
