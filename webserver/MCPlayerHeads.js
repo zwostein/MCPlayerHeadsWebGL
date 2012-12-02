@@ -195,8 +195,8 @@ MCPlayerHeadRow.prototype.onMouseDown = function( event )
 	this.mouseOnMouseDown.x = event.clientX;
 	this.mouseOnMouseDown.y = event.clientY;
 
-	var vector = new THREE.Vector3(	( event.clientX / this.container.offsetWidth ) * 2 - 1,
-					-( event.clientY / this.container.offsetHeight ) * 2 + 1,
+	var vector = new THREE.Vector3(	( (event.clientX-this.container.offsetLeft) / this.container.offsetWidth ) * 2 - 1,
+					-( (event.clientY-this.container.offsetTop) / this.container.offsetHeight ) * 2 + 1,
 					0.5);
 	var projector = new THREE.Projector();
 	projector.unprojectVector( vector, this.camera );
