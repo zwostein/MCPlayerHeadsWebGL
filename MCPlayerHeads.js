@@ -83,8 +83,8 @@ MCPlayerHeadRow = function( container )
 
 	this.scene = new THREE.Scene();
 
-	this.camera = new THREE.PerspectiveCamera( this.fovX2fovY( 60, this.container.offsetWidth/this.container.offsetHeight ),
-							this.container.offsetWidth/this.container.offsetHeight, 0.1, 100 );
+	this.camera = new THREE.PerspectiveCamera(	this.fovX2fovY( 60, this.container.offsetWidth/this.container.offsetHeight ),
+							this.container.offsetWidth/this.container.offsetHeight, 0.1, 100	);
 	this.camera.position.z = 15;
 
 	this.renderer = new THREE.WebGLRenderer();
@@ -102,29 +102,7 @@ MCPlayerHeadRow = function( container )
 	this.container.addEventListener( 'mouseup', function(e){_this.onMouseUp(e)}, false );
 	this.container.addEventListener( 'mouseout', function(e){_this.onMouseOut(e)}, false );
 
-	this.initiateUpdatePlayerListInterval = setInterval( function(){_this.initiateUpdatePlayerList()}, 10000 );
-
-	this.initiateUpdatePlayerList();
 	this.render();
-}
-
-MCPlayerHeadRow.prototype.initiateUpdatePlayerList = function()
-{
-	var request = new XMLHttpRequest()
-	var _this = this;
-	request.onreadystatechange = function()
-	{
-		if( request.readyState == 4 )
-		{
-			if( request.status == 200 )
-			{
-				var playerNames = JSON.parse( request.responseText );
-				_this.updatePlayerList( playerNames );
-			}
-		}
-	}
-	request.open( "GET", "getPlayerList.php", true )
-	request.send( null )
 }
 
 MCPlayerHeadRow.prototype.updatePlayerList = function( playerNames )
