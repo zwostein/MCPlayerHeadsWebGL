@@ -5,8 +5,8 @@ MCPlayerHead = function( name )
 
 	this.name = name;
 	this.texture = THREE.ImageUtils.loadTexture( 'getTexture.php?name=' + name );
-	this.texture.magFilter = THREE.NearestFilter;
 	this.texture.minFilter = THREE.LinearFilter;
+	this.texture.magFilter = THREE.NearestFilter;
 	this.generateMipmaps = false;
 	this.texture.wrapS = THREE.ClampToEdgeWrapping;
 	this.texture.wrasT = THREE.ClampToEdgeWrapping;
@@ -29,30 +29,30 @@ MCPlayerHead = function( name )
 		geometry.faces.push( new THREE.Face4( faceStartIndex+1, faceStartIndex+5, faceStartIndex+6, faceStartIndex+2 ) );	// right
 		geometry.faces.push( new THREE.Face4( faceStartIndex+3, faceStartIndex+2, faceStartIndex+6, faceStartIndex+7 ) );	// top
 		geometry.faces.push( new THREE.Face4( faceStartIndex+4, faceStartIndex+5, faceStartIndex+1, faceStartIndex+0 ) );	// bottom
-		geometry.faceVertexUvs[0].push( [	new THREE.UV( texOffset+1.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+2.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+2.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
-							new THREE.UV( texOffset+1.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
-		geometry.faceVertexUvs[0].push( [	new THREE.UV( texOffset+3.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+4.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+4.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
-							new THREE.UV( texOffset+3.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
-		geometry.faceVertexUvs[0].push( [	new THREE.UV( texOffset+0.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+1.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+1.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
-							new THREE.UV( texOffset+0.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
-		geometry.faceVertexUvs[0].push( [	new THREE.UV( texOffset+2.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+3.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+3.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
-							new THREE.UV( texOffset+2.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
-		geometry.faceVertexUvs[0].push( [	new THREE.UV( texOffset+1.0/8.0+texFixOffset, 3.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+2.0/8.0-texFixOffset, 3.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+2.0/8.0-texFixOffset, 4.0/4.0-texFixOffset ),
-							new THREE.UV( texOffset+1.0/8.0+texFixOffset, 4.0/4.0-texFixOffset )	] );
-		geometry.faceVertexUvs[0].push( [	new THREE.UV( texOffset+2.0/8.0+texFixOffset, 3.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+3.0/8.0-texFixOffset, 3.0/4.0+texFixOffset ),
-							new THREE.UV( texOffset+3.0/8.0-texFixOffset, 4.0/4.0-texFixOffset ),
-							new THREE.UV( texOffset+2.0/8.0+texFixOffset, 4.0/4.0-texFixOffset )	] );
+		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
+							new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
+		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+3.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+4.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+4.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
+							new THREE.Vector2( texOffset+3.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
+		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+0.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+1.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+1.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
+							new THREE.Vector2( texOffset+0.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
+		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
+							new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
+		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 3.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 3.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 4.0/4.0-texFixOffset ),
+							new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 4.0/4.0-texFixOffset )	] );
+		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 3.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 3.0/4.0+texFixOffset ),
+							new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 4.0/4.0-texFixOffset ),
+							new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 4.0/4.0-texFixOffset )	] );
 	}
 	pushNewMCCube( this.geometry, 1.0, 0.0, 0.0 );
 	pushNewMCCube( this.geometry, 1.1, 0.5, 0.0 );
@@ -75,6 +75,7 @@ MCPlayerHeadRow = function( container )
 	this.playerHeads = Array();
 	this.selectableHeads = [];
 	this.selectedHead;
+	this.hoveredHead;
 	this.targetRotation = new THREE.Vector2( 0, 0 );
 	this.targetRotationOnMouseDown = new THREE.Vector2( 0, 0 );
 	this.mouse = new THREE.Vector2( 0, 0 );
@@ -89,11 +90,33 @@ MCPlayerHeadRow = function( container )
 
 	this.renderer = new THREE.WebGLRenderer();
 	this.renderer.setSize( this.container.offsetWidth, this.container.offsetHeight );
-	this.container.appendChild( this.renderer.domElement);
+	this.container.appendChild( this.renderer.domElement );
 
 	this.directionalLight = new THREE.DirectionalLight( 0xffffff, 2.0 );
 	this.directionalLight.position.set( 0, 1, 5 );
 	this.scene.add( this.directionalLight );
+
+	this.popupCanvas = document.createElement( 'canvas' );
+	this.popupContext = this.popupCanvas.getContext('2d');
+	this.popupContext.font = "20px Sans";
+	this.popupContext.textBaseline = 'bottom';
+	var message = "MCPlayerHeads";
+	var metrics = this.popupContext.measureText(message);
+	this.popupCanvas.width = metrics.width;
+	this.popupCanvas.height = 20;
+	this.popupContext.fillStyle = "rgba(255,255,255,0.75)";
+	this.popupContext.fillRect( 0,0, metrics.width,20 );
+	this.popupContext.fillStyle = "rgba(0,0,0,1)";
+	this.popupContext.textBaseline = 'bottom';
+	this.popupContext.font = "20px Sans";
+	this.popupContext.fillText( message, 0,20 );
+	this.popupTexture = new THREE.Texture( this.popupCanvas )
+	this.popupTexture.needsUpdate = true;
+	this.popupMaterial = new THREE.SpriteMaterial( { map: this.popupTexture, useScreenCoordinates: true, alignment: THREE.SpriteAlignment.topLeft, opacity: 1 } );
+	this.popupSprite = new THREE.Sprite( this.popupMaterial );
+	this.popupSprite.position.set( 0, 0, 0 );
+	this.popupSprite.scale.set( this.popupTexture.image.width, this.popupTexture.image.height, 1 );
+	this.scene.add( this.popupSprite );
 
 	var _this = this
 	this.container.addEventListener( 'mousedown', function(e){_this.onMouseDown(e)}, false );
@@ -178,7 +201,7 @@ MCPlayerHeadRow.prototype.onMouseDown = function( event )
 					0.5);
 	var projector = new THREE.Projector();
 	projector.unprojectVector( vector, this.camera );
-	var ray = new THREE.Ray( this.camera.position, vector.subSelf( this.camera.position ).normalize() );
+	var ray = new THREE.Raycaster( this.camera.position, vector.subSelf( this.camera.position ).normalize() );
 	var intersects = ray.intersectObjects( this.selectableHeads );
 	if( intersects.length > 0 )
 	{
@@ -206,16 +229,56 @@ MCPlayerHeadRow.prototype.onMouseMove = function( event )
 		if( this.selectedHead.targetRotation.y < -Math.PI/4 )
 			this.selectedHead.targetRotation.y = -Math.PI/4;
 	}
+	if( ! this.selectedHead )
+	{
+		var vector = new THREE.Vector3(	( (event.clientX-this.container.offsetLeft) / this.container.offsetWidth ) * 2 - 1,
+						-( (event.clientY-this.container.offsetTop) / this.container.offsetHeight ) * 2 + 1,
+						0.5);
+		var projector = new THREE.Projector();
+		projector.unprojectVector( vector, this.camera );
+		var ray = new THREE.Raycaster( this.camera.position, vector.subSelf( this.camera.position ).normalize() );
+		var intersects = ray.intersectObjects( this.selectableHeads );
+		if( intersects.length > 0 )
+		{
+			this.hoveredHead = intersects[0].object;
+			this.popupSprite.position.set( this.mouse.x, this.mouse.y+10, 0 );
+			this.popupMaterial.opacity = 0.75;
+			this.popupContext.font = "20px Sans";
+			this.popupContext.textBaseline = 'bottom';
+			var message = intersects[0].object.name;
+			var metrics = this.popupContext.measureText(message);
+			this.popupCanvas.width = metrics.width;
+			this.popupCanvas.height = 20;
+			this.popupContext.fillStyle = "rgba(255,255,255,0.75)";
+			this.popupContext.fillRect( 0,0, metrics.width,20 );
+			this.popupContext.fillStyle = "rgba(0,0,0,1)";
+			this.popupContext.textBaseline = 'bottom';
+			this.popupContext.font = "20px Sans";
+			this.popupContext.fillText( message, 0,20 );
+			this.popupTexture.needsUpdate = true;
+			this.popupSprite.scale.set( this.popupTexture.image.width, this.popupTexture.image.height, 1 );
+		}
+		else
+		{
+			this.hoveredHead = null;
+		}
+	}
+	else
+	{
+		this.hoveredHead = null;
+	}
 }
 
 MCPlayerHeadRow.prototype.onMouseUp = function( event )
 {
 	this.selectedHead = null;
+	this.hoveredHead = null;
 }
 
 MCPlayerHeadRow.prototype.onMouseOut = function( event )
 {
 	this.selectedHead = null;
+	this.hoveredHead = null;
 }
 
 MCPlayerHeadRow.prototype.render = function()
@@ -235,5 +298,7 @@ MCPlayerHeadRow.prototype.render = function()
 		THREE.Quaternion.slerp( this.playerHeads[i].quaternion, this.playerHeads[i].lookAt, newRotation, 0.08 );
 		this.playerHeads[i].quaternion = newRotation;
 	}
+	if( ! this.hoveredHead )
+		this.popupMaterial.opacity = this.popupMaterial.opacity * 0.86;
 	this.renderer.render( this.scene, this.camera );
 }
