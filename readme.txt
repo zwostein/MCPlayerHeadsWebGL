@@ -8,4 +8,3 @@ ToDo:
 * Display Playerbodys
 * Optimize image caching [Kimiko]
 * Add server query script from xPaw [Kimiko]
-* Show playernames on hover
