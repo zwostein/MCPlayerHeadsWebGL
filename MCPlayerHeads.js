@@ -241,7 +241,7 @@ MCPlayerHeadRow.prototype.onMouseMove = function( event )
 		if( intersects.length > 0 )
 		{
 			this.hoveredHead = intersects[0].object;
-			this.popupSprite.position.set( this.mouse.x, this.mouse.y+10, 0 );
+			this.popupSprite.position.set( (event.clientX-this.container.offsetLeft)+8, (event.clientY-this.container.offsetTop)+16, 0 );
 			this.popupMaterial.opacity = 0.75;
 			this.popupContext.font = "20px Sans";
 			this.popupContext.textBaseline = 'bottom';
