@@ -1,10 +1,19 @@
+// get current script path for serverside helperscripts
+MCPlayerHeads_scriptPath = "";
+(function()
+{
+	var scripts = document.getElementsByTagName("script");
+	var src = scripts[scripts.length-1].src;
+	MCPlayerHeads_scriptPath = src.substring( 0, src.lastIndexOf("/")+1 );
+}) ();
+
 
 MCPlayerHead = function( name )
 {
 	THREE.Mesh.call( this );	// inherit from THREE.Mesh
 
 	this.name = name;
-	this.texture = THREE.ImageUtils.loadTexture( ServerPath + '/getTexture.php?name=' + name );
+	this.texture = THREE.ImageUtils.loadTexture( MCPlayerHeads_scriptPath + 'getTexture.php?name=' + name );
 	this.texture.minFilter = THREE.LinearFilter;
 	this.texture.magFilter = THREE.NearestFilter;
 	this.generateMipmaps = false;
