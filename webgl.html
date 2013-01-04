@@ -1,0 +1,29 @@
+<div id="PlayerHeadsContainer"></div>
+<script type="text/javascript">
+
+	var ServerPath = "webgl";
+
+	var PlayerHeadRow = new MCPlayerHeadRow( document.getElementById("PlayerHeadsContainer") )
+
+	var initiateUpdatePlayerListInterval = setInterval( initiateUpdatePlayerList, 10000 );
+	function initiateUpdatePlayerList()
+	{
+		var request = new XMLHttpRequest()
+		request.onreadystatechange = function()
+		{
+			if( request.readyState == 4 )
+			{
+				if( request.status == 200 )
+				{
+					var playerNames = JSON.parse( request.responseText );
+					PlayerHeadRow.updatePlayerList( playerNames );
+					// add other callbacks here
+				}
+			}
+		}
+		request.open( "GET", ServerPath + "/getPlayerList.php", true )
+		request.send( null )
+	}
+	initiateUpdatePlayerList();
+
+</script>

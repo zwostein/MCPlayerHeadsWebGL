@@ -4,7 +4,7 @@ MCPlayerHead = function( name )
 	THREE.Mesh.call( this );	// inherit from THREE.Mesh
 
 	this.name = name;
-	this.texture = THREE.ImageUtils.loadTexture( 'getTexture.php?name=' + name );
+	this.texture = THREE.ImageUtils.loadTexture( ServerPath + '/getTexture.php?name=' + name );
 	this.texture.minFilter = THREE.LinearFilter;
 	this.texture.magFilter = THREE.NearestFilter;
 	this.generateMipmaps = false;
