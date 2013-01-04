@@ -3,21 +3,26 @@ header("Content-type: image/png");
 $mcname	= $_GET['name'];
 
 $piclink = "cache/" . $mcname . ".png";
+$getnewfile = true;
 
-if ( file_exists($piclink) ) {
-	$ftime = filemtime($piclink); // hier wird noch gearbeitet
+if( file_exists($piclink) ){
+	$fileage = floor( ( time() - filemtime($piclink) )/60/60 );		// fileage in hours
+	if( $fileage < 24 ){
+		$getnewfile = false;
+	}
 }
-else {
+
+if( $getnewfile ){
 	$source = "http://s3.amazonaws.com/MinecraftSkins/" . $mcname . ".png";
 	$content = @file_get_contents($source);
-	if ( $content ) {
+	if( $content ){
 		$destination = $piclink;
 		@file_put_contents($destination, $content);
 	}
 }
 
 $pic = @imagecreatefrompng($piclink);
-if ( !$pic ) {
+if( !$pic ){
 	$pic = @imagecreatefrompng("steve.png");
 }
 

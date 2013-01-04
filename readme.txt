@@ -6,5 +6,4 @@ No, this happens, if the caching script, cant write to the cache folder. Change 
 
 ToDo:
 * Display Playerbodys
-* Optimize image caching [Kimiko]
 * Add server query script from xPaw [Kimiko]
