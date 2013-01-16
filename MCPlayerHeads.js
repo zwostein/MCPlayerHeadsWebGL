@@ -210,7 +210,7 @@ MCPlayerHeadRow.prototype.onMouseDown = function( event )
 					0.5);
 	var projector = new THREE.Projector();
 	projector.unprojectVector( vector, this.camera );
-	var ray = new THREE.Raycaster( this.camera.position, vector.subSelf( this.camera.position ).normalize() );
+	var ray = new THREE.Raycaster( this.camera.position, vector.sub( this.camera.position ).normalize() );
 	var intersects = ray.intersectObjects( this.selectableHeads );
 	if( intersects.length > 0 )
 	{
@@ -245,7 +245,7 @@ MCPlayerHeadRow.prototype.onMouseMove = function( event )
 						0.5);
 		var projector = new THREE.Projector();
 		projector.unprojectVector( vector, this.camera );
-		var ray = new THREE.Raycaster( this.camera.position, vector.subSelf( this.camera.position ).normalize() );
+		var ray = new THREE.Raycaster( this.camera.position, vector.sub( this.camera.position ).normalize() );
 		var intersects = ray.intersectObjects( this.selectableHeads );
 		if( intersects.length > 0 )
 		{
@@ -302,7 +302,7 @@ MCPlayerHeadRow.prototype.render = function()
 		rot.rotateY( this.playerHeads[i].targetRotation.x );
 		rot.rotateX( this.playerHeads[i].targetRotation.y );
 		this.playerHeads[i].lookAt.setFromRotationMatrix( rot );
-		this.playerHeads[i].lookAt.multiplySelf( this.playerHeads[i].randomLookAtOffset );
+		this.playerHeads[i].lookAt.multiply( this.playerHeads[i].randomLookAtOffset );
 		var newRotation = new THREE.Quaternion();
 		THREE.Quaternion.slerp( this.playerHeads[i].quaternion, this.playerHeads[i].lookAt, newRotation, 0.08 );
 		this.playerHeads[i].quaternion = newRotation;
