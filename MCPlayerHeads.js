@@ -32,36 +32,83 @@ MCPlayerHead = function( name )
 		geometry.vertices.push( new THREE.Vector3(  scale, -scale, -scale ) );	// 5 - backBottomRight
 		geometry.vertices.push( new THREE.Vector3(  scale,  scale, -scale ) );	// 6 - backTopRight
 		geometry.vertices.push( new THREE.Vector3( -scale,  scale, -scale ) );	// 7 - backTopLeft
-		geometry.faces.push( new THREE.Face4( faceStartIndex+0, faceStartIndex+1, faceStartIndex+2, faceStartIndex+3 ) );	// front
-		geometry.faces.push( new THREE.Face4( faceStartIndex+5, faceStartIndex+4, faceStartIndex+7, faceStartIndex+6 ) );	// back
-		geometry.faces.push( new THREE.Face4( faceStartIndex+4, faceStartIndex+0, faceStartIndex+3, faceStartIndex+7 ) );	// left
-		geometry.faces.push( new THREE.Face4( faceStartIndex+1, faceStartIndex+5, faceStartIndex+6, faceStartIndex+2 ) );	// right
-		geometry.faces.push( new THREE.Face4( faceStartIndex+3, faceStartIndex+2, faceStartIndex+6, faceStartIndex+7 ) );	// top
-		geometry.faces.push( new THREE.Face4( faceStartIndex+4, faceStartIndex+5, faceStartIndex+1, faceStartIndex+0 ) );	// bottom
-		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
-							new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
-		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+3.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+4.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+4.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
-							new THREE.Vector2( texOffset+3.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
-		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+0.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+1.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+1.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
-							new THREE.Vector2( texOffset+0.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
-		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
-							new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 3.0/4.0-texFixOffset )	] );
-		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 3.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 3.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 4.0/4.0-texFixOffset ),
-							new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 4.0/4.0-texFixOffset )	] );
-		geometry.faceVertexUvs[0].push( [	new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 3.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 3.0/4.0+texFixOffset ),
-							new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 4.0/4.0-texFixOffset ),
-							new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 4.0/4.0-texFixOffset )	] );
+		geometry.faces.push( new THREE.Face3( faceStartIndex+0, faceStartIndex+1, faceStartIndex+2 ) );	// front
+		geometry.faces.push( new THREE.Face3( faceStartIndex+2, faceStartIndex+3, faceStartIndex+0 ) );	// front
+		geometry.faces.push( new THREE.Face3( faceStartIndex+5, faceStartIndex+4, faceStartIndex+7 ) );	// back
+		geometry.faces.push( new THREE.Face3( faceStartIndex+7, faceStartIndex+6, faceStartIndex+5 ) );	// back
+		geometry.faces.push( new THREE.Face3( faceStartIndex+4, faceStartIndex+0, faceStartIndex+3 ) );	// left
+		geometry.faces.push( new THREE.Face3( faceStartIndex+3, faceStartIndex+7, faceStartIndex+4 ) );	// left
+		geometry.faces.push( new THREE.Face3( faceStartIndex+1, faceStartIndex+5, faceStartIndex+6 ) );	// right
+		geometry.faces.push( new THREE.Face3( faceStartIndex+6, faceStartIndex+2, faceStartIndex+1 ) );	// right
+		geometry.faces.push( new THREE.Face3( faceStartIndex+3, faceStartIndex+2, faceStartIndex+6 ) );	// top
+		geometry.faces.push( new THREE.Face3( faceStartIndex+6, faceStartIndex+7, faceStartIndex+3 ) );	// top
+		geometry.faces.push( new THREE.Face3( faceStartIndex+4, faceStartIndex+5, faceStartIndex+1 ) );	// bottom
+		geometry.faces.push( new THREE.Face3( faceStartIndex+1, faceStartIndex+0, faceStartIndex+4 ) );	// bottom
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 3.0/4.0-texFixOffset )
+		] );
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 3.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 2.0/4.0+texFixOffset )
+		] );
+
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+3.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+4.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+4.0/8.0-texFixOffset, 3.0/4.0-texFixOffset )
+		] );
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+4.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+3.0/8.0+texFixOffset, 3.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+3.0/8.0+texFixOffset, 2.0/4.0+texFixOffset )
+		] );
+
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+0.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+1.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+1.0/8.0-texFixOffset, 3.0/4.0-texFixOffset )
+		] );
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+1.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+0.0/8.0+texFixOffset, 3.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+0.0/8.0+texFixOffset, 2.0/4.0+texFixOffset )
+		] );
+
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 2.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 2.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 3.0/4.0-texFixOffset )
+		] );
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 3.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 3.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 2.0/4.0+texFixOffset )
+		] );
+
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 3.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 3.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 4.0/4.0-texFixOffset )
+		] );
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+2.0/8.0-texFixOffset, 4.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 4.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+1.0/8.0+texFixOffset, 3.0/4.0+texFixOffset )
+		] );
+
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 3.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 3.0/4.0+texFixOffset ),
+			new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 4.0/4.0-texFixOffset )
+		] );
+		geometry.faceVertexUvs[0].push( [
+			new THREE.Vector2( texOffset+3.0/8.0-texFixOffset, 4.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 4.0/4.0-texFixOffset ),
+			new THREE.Vector2( texOffset+2.0/8.0+texFixOffset, 3.0/4.0+texFixOffset )
+		] );
 	}
 	pushNewMCCube( this.geometry, 1.0, 0.0, 0.0 );
 	pushNewMCCube( this.geometry, 1.1, 0.5, 0.0 );
@@ -97,7 +144,8 @@ MCPlayerHeadRow = function( container )
 							this.container.offsetWidth/this.container.offsetHeight, 0.1, 100	);
 	this.camera.position.z = 15;
 
-	this.renderer = new THREE.WebGLRenderer();
+	this.renderer = new THREE.WebGLRenderer( { alpha: true } );
+	this.renderer.setClearColor( 0x000000, 0 );
 	this.renderer.setSize( this.container.offsetWidth, this.container.offsetHeight );
 	this.container.appendChild( this.renderer.domElement );
 
@@ -107,24 +155,22 @@ MCPlayerHeadRow = function( container )
 
 	this.popupCanvas = document.createElement( 'canvas' );
 	this.popupContext = this.popupCanvas.getContext('2d');
-	this.popupContext.font = "20px Sans";
-	this.popupContext.textBaseline = 'bottom';
 	var message = "MCPlayerHeads";
 	var metrics = this.popupContext.measureText(message);
 	this.popupCanvas.width = metrics.width;
-	this.popupCanvas.height = 20;
+	this.popupCanvas.height = 40;
 	this.popupContext.fillStyle = "rgba(255,255,255,0.75)";
-	this.popupContext.fillRect( 0,0, metrics.width,20 );
+	this.popupContext.fillRect( 0,0, metrics.width,40 );
 	this.popupContext.fillStyle = "rgba(0,0,0,1)";
 	this.popupContext.textBaseline = 'bottom';
-	this.popupContext.font = "20px Sans";
-	this.popupContext.fillText( message, 0,20 );
+	this.popupContext.font = "32px Sans";
+	this.popupContext.fillText( message, 0, 40 );
 	this.popupTexture = new THREE.Texture( this.popupCanvas )
 	this.popupTexture.needsUpdate = true;
-	this.popupMaterial = new THREE.SpriteMaterial( { map: this.popupTexture, useScreenCoordinates: true, alignment: THREE.SpriteAlignment.topLeft, opacity: 1 } );
+	this.popupMaterial = new THREE.SpriteMaterial( { map: this.popupTexture, opacity: 1 } );
 	this.popupSprite = new THREE.Sprite( this.popupMaterial );
 	this.popupSprite.position.set( 0, 0, 0 );
-	this.popupSprite.scale.set( this.popupTexture.image.width, this.popupTexture.image.height, 1 );
+	this.popupSprite.scale.set( 0.25*this.popupTexture.image.width/this.popupTexture.image.height, 0.25, 0.25 );
 	this.scene.add( this.popupSprite );
 
 	var _this = this
@@ -250,22 +296,21 @@ MCPlayerHeadRow.prototype.onMouseMove = function( event )
 		if( intersects.length > 0 )
 		{
 			this.hoveredHead = intersects[0].object;
-			this.popupSprite.position.set( (event.clientX-this.container.offsetLeft)+8, (event.clientY-this.container.offsetTop)+16, 0 );
+			var popupOffset = new THREE.Vector3( 0, -1.25, 1.5 );
+			this.popupSprite.position = popupOffset.add(intersects[0].object.position);
 			this.popupMaterial.opacity = 0.75;
-			this.popupContext.font = "20px Sans";
-			this.popupContext.textBaseline = 'bottom';
 			var message = intersects[0].object.name;
 			var metrics = this.popupContext.measureText(message);
 			this.popupCanvas.width = metrics.width;
-			this.popupCanvas.height = 20;
+			this.popupCanvas.height = 40;
 			this.popupContext.fillStyle = "rgba(255,255,255,0.75)";
-			this.popupContext.fillRect( 0,0, metrics.width,20 );
+			this.popupContext.fillRect( 0,0, metrics.width,40 );
 			this.popupContext.fillStyle = "rgba(0,0,0,1)";
 			this.popupContext.textBaseline = 'bottom';
-			this.popupContext.font = "20px Sans";
-			this.popupContext.fillText( message, 0,20 );
+			this.popupContext.font = "32px Sans";
+			this.popupContext.fillText( message, 0,40 );
 			this.popupTexture.needsUpdate = true;
-			this.popupSprite.scale.set( this.popupTexture.image.width, this.popupTexture.image.height, 1 );
+			this.popupSprite.scale.set( 0.5*this.popupTexture.image.width/this.popupTexture.image.height, 0.5, 0.5 );
 		}
 		else
 		{
@@ -297,11 +342,13 @@ MCPlayerHeadRow.prototype.render = function()
 
 	for( var i in this.playerHeads )
 	{
-		this.playerHeads[i].useQuaternion = true;
-		var rot = new THREE.Matrix4();
-		rot.rotateY( this.playerHeads[i].targetRotation.x );
-		rot.rotateX( this.playerHeads[i].targetRotation.y );
-		this.playerHeads[i].lookAt.setFromRotationMatrix( rot );
+		var rotX = new THREE.Quaternion();
+		rotX.setFromAxisAngle( new THREE.Vector3( 1, 0, 0 ), this.playerHeads[i].targetRotation.y );
+		var rotY = new THREE.Quaternion();
+		rotY.setFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), this.playerHeads[i].targetRotation.x );
+		this.playerHeads[i].lookAt = new THREE.Quaternion();
+		this.playerHeads[i].lookAt.multiply( rotX );
+		this.playerHeads[i].lookAt.multiply( rotY );
 		this.playerHeads[i].lookAt.multiply( this.playerHeads[i].randomLookAtOffset );
 		var newRotation = new THREE.Quaternion();
 		THREE.Quaternion.slerp( this.playerHeads[i].quaternion, this.playerHeads[i].lookAt, newRotation, 0.08 );
